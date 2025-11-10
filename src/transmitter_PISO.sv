@@ -1,5 +1,5 @@
-//Transmitter Parallel In Serial Out Module (Shift Register w/ Parallel Load)
-//Anna Dalton (https://github.com/annazdalton)
+// Transmitter Parallel In Serial Out Module (Shift Register w/ Parallel Load)
+// Anna Dalton (https://github.com/annazdalton)
 
 module transmitter_PISO(
     input clk, nrst,
