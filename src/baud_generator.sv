@@ -11,8 +11,8 @@ module baud_generator(
     //change divisor value to change baud rate
     assign divisor = 16'd1250;
 
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+    always_ff @(posedge clk, negedge rst_n) begin
+        if (~rst_n) begin
             counter   <= 16'd0;
             baud_tick <= 1'b0;
         end else begin
