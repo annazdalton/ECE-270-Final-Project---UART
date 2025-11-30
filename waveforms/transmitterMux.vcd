@@ -1,0 +1,71 @@
+$date
+	Sat Nov 29 20:41:57 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module transmitterMux_tb $end
+$var wire 1 ! tx_data_o $end
+$var reg 1 " parity_i $end
+$var reg 1 # piso_i $end
+$var reg 2 $ select [1:0] $end
+$var reg 1 % start $end
+$var reg 1 & stop $end
+$scope module muxTest $end
+$var wire 1 " parity_i $end
+$var wire 1 # piso_i $end
+$var wire 2 ' select [1:0] $end
+$var wire 1 % start $end
+$var wire 1 & stop $end
+$var reg 1 ! tx_data_o $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b0 '
+1&
+1%
+b0 $
+1#
+1"
+1!
+$end
+#20000
+0!
+0%
+#30000
+1!
+1%
+#40000
+b1 $
+b1 '
+#50000
+0!
+0#
+#60000
+1!
+1#
+#70000
+b10 $
+b10 '
+#80000
+0"
+#90000
+1"
+#100000
+b11 $
+b11 '
+#110000
+0!
+0&
+#120000
+1!
+1&
+#140000

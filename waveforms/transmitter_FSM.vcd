@@ -1,0 +1,248 @@
+$date
+	Sat Nov 29 21:33:37 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module transmitter_FSM_tb $end
+$var wire 1 ! stop $end
+$var wire 1 " start $end
+$var wire 2 # select [1:0] $end
+$var wire 1 $ count_en $end
+$var wire 1 % count_clear $end
+$var reg 1 & baud_tick $end
+$var reg 1 ' clk $end
+$var reg 4 ( count_data [3:0] $end
+$var reg 1 ) nrst $end
+$var reg 1 * parity_en $end
+$var reg 1 + tx_valid $end
+$scope module FSMTest $end
+$var wire 1 & baud_tick $end
+$var wire 1 ' clk $end
+$var wire 4 , count_data [3:0] $end
+$var wire 1 ) nrst $end
+$var wire 1 * parity_en $end
+$var wire 1 + tx_valid $end
+$var reg 1 % count_clear $end
+$var reg 1 $ count_en $end
+$var reg 3 - nextState [2:0] $end
+$var reg 2 . select [1:0] $end
+$var reg 1 " start $end
+$var reg 3 / state [2:0] $end
+$var reg 1 ! stop $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b0 /
+b11 .
+b0 -
+bx ,
+x+
+x*
+1)
+bx (
+1'
+1&
+0%
+0$
+b11 #
+0"
+1!
+$end
+#10000
+0)
+0'
+#20000
+1)
+1'
+0&
+#30000
+0'
+#40000
+1'
+0+
+1&
+#50000
+b1 -
+0'
+1*
+1+
+#60000
+b0 #
+b0 .
+b1 /
+1'
+0&
+#70000
+0'
+#80000
+1$
+b10 /
+0%
+b10 -
+b1 #
+b1 .
+1'
+1&
+#90000
+0'
+#100000
+b1 #
+b1 .
+0$
+1'
+0&
+#110000
+b1 #
+b1 .
+0'
+b0 (
+b0 ,
+#120000
+1$
+b1 #
+b1 .
+1'
+1&
+#130000
+b1 #
+b1 .
+1$
+0'
+b1 (
+b1 ,
+#140000
+b1 #
+b1 .
+0$
+1'
+0&
+#150000
+b1 #
+b1 .
+0'
+b10 (
+b10 ,
+#160000
+1$
+b1 #
+b1 .
+1'
+1&
+#170000
+b1 #
+b1 .
+1$
+0'
+b11 (
+b11 ,
+#180000
+b1 #
+b1 .
+0$
+1'
+0&
+#190000
+b1 #
+b1 .
+0'
+b100 (
+b100 ,
+#200000
+1$
+b1 #
+b1 .
+1'
+1&
+#210000
+b1 #
+b1 .
+1$
+0'
+b101 (
+b101 ,
+#220000
+b1 #
+b1 .
+0$
+1'
+0&
+#230000
+b1 #
+b1 .
+0'
+b110 (
+b110 ,
+#240000
+1$
+b1 #
+b1 .
+1'
+1&
+#250000
+1%
+b11 -
+b1 #
+b1 .
+0$
+0'
+b111 (
+b111 ,
+#260000
+b11 /
+b10 #
+b10 .
+0%
+1'
+0&
+#270000
+0'
+#280000
+b100 /
+b0 -
+b11 #
+b11 .
+1'
+1&
+#290000
+0'
+#300000
+b100 -
+1'
+0&
+#310000
+0'
+#320000
+b0 /
+b1 -
+1'
+1&
+#330000
+0'
+#340000
+b0 #
+b0 .
+b1 /
+1'
+0&
+#350000
+0'
+#360000
+0$
+b10 /
+1%
+b11 -
+b1 #
+b1 .
+1'
+1&
+#370000
+0'
