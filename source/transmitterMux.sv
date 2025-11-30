@@ -4,11 +4,11 @@ module transmitterMux(
     output logic tx_data_o
 );
     always_comb begin
-        if(select == 1'b00) begin
+        if(select == 2'b00) begin
             tx_data_o = start;
-        end else if (select == 1'b01) begin
+        end else if (select == 2'b01) begin
             tx_data_o = piso_i;
-        end else if (select == 1'b10) begin
+        end else if (select == 2'b10) begin
             tx_data_o = parity_i;
         end else begin //select =  11
             tx_data_o = stop; 
