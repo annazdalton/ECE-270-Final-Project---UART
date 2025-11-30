@@ -32,7 +32,7 @@ initial begin
     #10;
 
     //even number of 1s, parity = 0
-    data_i = 8'b1010_1010;     // four 1s → even → parity_bit=0
+    data_i = 8'b1010_1010;
     #10;
 
     $finish;
