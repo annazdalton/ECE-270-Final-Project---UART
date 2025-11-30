@@ -22,6 +22,9 @@ always begin
 end
 
 initial begin
+    $dumpfile("transmitter_PISO.vcd");
+    $dumpvars(0, transmitter_PISO_tb);
+    
     clk = 1'b0;
 
     //reset
@@ -36,10 +39,8 @@ initial begin
     load = 1;
     shift_en = 0;
     #10
+    load = 0;
     shift_en = 1;     
-
-    $dumpfile("transmitter_PISO.vcd");
-    $dumpvars(0, transmitter_PISO_tb);
 
     #200
     $finish;
