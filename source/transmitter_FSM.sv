@@ -1,5 +1,5 @@
 module transmitter_FSM(
-    input logic clk, nrst, baud_tick, tx_valid, count_overflow, parity_en,
+    input logic clk, nrst, baud_tick, tx_valid, parity_en,
     input logic [3:0] count_data,
     output logic start, stop, count_en, count_clear,
     output logic [1:0] select
@@ -79,7 +79,7 @@ module transmitter_FSM(
                 select = 2'b10; //parity output via mux
 
                 if(baud_tick) begin
-                    nextState = STOP
+                    nextState = STOP;
                 end else begin
                     nextState = PARITY;
                 end
