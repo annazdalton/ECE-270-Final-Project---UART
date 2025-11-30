@@ -76,9 +76,8 @@ module transmitter_FSM(
                 end
             end
             PARITY: begin 
-                count_clear = 0;
-                count_en = 0;
-                //add logic once parity gen is done
+                select = 2'b10; //parity output via mux
+
                 if(baud_tick) begin
                     nextState = STOP
                 end else begin
@@ -86,8 +85,8 @@ module transmitter_FSM(
                 end
             end
             STOP: begin 
-                count_clear = 0;
-                count_en = 0;
+                select = 2'b11; // send stop to rx
+
                 if(baud_tick) begin
                     nextState = IDLE;
                 end else begin
@@ -96,8 +95,6 @@ module transmitter_FSM(
             end
             default: begin
                 nextState = IDLE; 
-                count_en = 0;
-                count_clear = 0;
             end
         endcase
     end
