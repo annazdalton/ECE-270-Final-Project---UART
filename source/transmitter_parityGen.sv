@@ -3,7 +3,7 @@
 
 module transmitter_parityGen(
     input logic [7:0] data_i,
-    input logic parity_en;
+    input logic parity_en,
     output logic parity_bit
 );
 
