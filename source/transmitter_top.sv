@@ -54,7 +54,7 @@ transmitter_FSM trans_FSM(
   .select(mux_select)
 );
 
-tramsmitter_PISO trans_PISO(
+transmitter_PISO trans_PISO(
   .clk(hwclk),
   .nrst(reset),
   .data_i(PISOdata_i),
