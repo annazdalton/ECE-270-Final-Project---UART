@@ -2,7 +2,7 @@ module transmitter_FSM(
     input logic clk, nrst, baud_tick, tx_valid, count_overflow, parity_en,
     input logic [3:0] count_data,
     output logic start, stop, count_en, count_clear,
-    output logic select
+    output logic [1:0] select
 );
 
     typedef enum logic [2:0]{  
@@ -25,14 +25,14 @@ module transmitter_FSM(
 
     always_comb begin
         //defaults to prevent latch
-        nextState   = state;
-        count_en    = 1'b0;
+        nextState = state;
+        count_en = 1'b0;
         count_clear = 1'b0;
 
-        start       = 1'b0;
-        stop        = 1'b1;
+        start = 1'b0;
+        stop = 1'b1;
 
-        select      = 2'b11;
+        select = 2'b11;
 
         case(state) 
             IDLE: begin 
