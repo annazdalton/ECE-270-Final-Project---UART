@@ -16,7 +16,7 @@ module receiver_FSM(
     state_t state, nextState;
     logic [3:0] bit_count, nextCount;
 
-    always_ff @(posedge clk, negedge ~nrst) begin
+    always_ff @(posedge clk, negedge nrst) begin
         if(~nrst) begin
             state <= IDLE;
             bit_count <= '0;
@@ -90,3 +90,4 @@ module receiver_FSM(
     end
 
 endmodule
+
