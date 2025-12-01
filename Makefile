@@ -1,166 +1,94 @@
-###########################################################################################
-# STARS 2025 - Makefile for SystemVerilog Projects
-# By Miguel Isrrael Teran, Alex Weyer, Johnny Hazboun, Ben Miller
-# 
-# Set tab spacing to 2 spaces per tab for best viewing results
-###########################################################################################
+# ================================
+# Project Configuration
+# ================================
 
-export PATH := /home/shay/a/ece270/bin:$(PATH)
-export LD_LIBRARY_PATH := /home/shay/a/ece270/lib:$(LD_LIBRARY_PATH)
+TOP := ice40hx8k
+SRC_DIR := src
+UART_DIR := uart
+TB_DIR := testbench
+BUILD := build
+PINMAP := constraints/pinmap.pcf
 
-YOSYS=yosys
-NEXTPNR=nextpnr-ice40
-SHELL=bash
+# ================================
+# FPGA Tools
+# ================================
 
-MAP = mapped
-TB	=  testbench
-SRC = source
-BUILD = build
+YOSYS := yosys
+NEXTPNR := nextpnr-ice40
+ICEPACK := icepack
+PROG := iceprog
 
-FPGA_TOP = top
-ICE   	= support/ice40hx8k.sv
-UART	= support/uart*.v
-PINMAP = support/pinmap.pcf
-FPGA_TIMING_CELLS = support/*.v
+# ================================
+# Source Files
+# ================================
 
-DEVICE  = 8k
-TIMEDEV = hx8k
-FOOTPRINT = ct256
+SRC := $(wildcard $(SRC_DIR)/*.sv)
+UART := $(wildcard $(UART_DIR)/*.v)
+FILES := $(SRC) $(UART)
 
-help:
-	@echo -e "Help..."
-	@cat support/help.txt
+# ================================
+# Build Products
+# ================================
 
-# *******************************************************************************
-# COMPILATION & SIMULATION TARGETS
-# *******************************************************************************
+JSON := $(BUILD)/$(TOP).json
+ASC := $(BUILD)/$(TOP).asc
+BIN := $(BUILD)/$(TOP).bin
 
-# Source Compilation and simulation of Design
+# ================================
+# FPGA Build Flow
+# ================================
+
+$(JSON): $(FILES) $(PINMAP) Makefile
+mkdir -p $(BUILD)
+$(YOSYS) -p "\
+read_verilog -sv -noblackbox $(FILES); \
+read_verilog -lib $(shell yosys-config --datdir)/ice40/cells_sim.v; \
+hierarchy -check -top $(TOP); \
+proc; opt; fsm; opt; \
+techmap; opt; \
+synth_ice40 -top $(TOP) -json $(JSON)"
+
+$(ASC): $(JSON)
+$(NEXTPNR) --hx8k --package ct256 --pcf $(PINMAP) \
+--json $(JSON) --asc $(ASC) --top $(TOP)
+
+$(BIN): $(ASC)
+$(ICEPACK) $(ASC) $(BIN)
+
+all: $(BIN)
+
+# ================================
+# Flash to FPGA
+# ================================
+
+cram: $(BIN)
+$(PROG) -S $(BIN)
+
+# ================================
+# Simulation
+# ================================
+
 .PHONY: sim_%_src
-sim_%_src: 
-	@echo -e "Creating executable for source simulation...\n"
-	@mkdir -p $(BUILD) && rm -rf $(BUILD)/*
-	@iverilog -g2012 -o $(BUILD)/$*_tb -Y .sv -y $(SRC) $(TB)/$*_tb.sv
-	@echo -e "\nSource Compilation complete!\n"
-	@echo -e "Simulating source...\n"
-	@vvp -l vvp_sim.log $(BUILD)/$*_tb
-	@echo -e "\nSimulation complete!\n"
-	@echo -e "\nOpening waveforms...\n"
-	@if [ -f waves/$*.gtkw ]; then \
-		gtkwave waves/$*.gtkw; \
-	else \
-		gtkwave waves/$*.vcd; \
-	fi
+sim_%_src:
+@echo -e "Creating executable for source simulation...\n"
+@mkdir -p $(BUILD) && rm -rf $(BUILD)/*
+@iverilog -g2012 -o $(BUILD)/$*_tb -Y .sv -y $(SRC) $(TB_DIR)/$*_tb.sv
+@echo -e "\nSource Compilation complete!\n"
+@echo -e "Simulating source...\n"
+@vvp -l vvp_sim.log $(BUILD)/$*_tb
+@echo -e "\nSimulation complete!\n"
+@echo -e "\nOpening waveforms...\n"
+@if [ -f waves/$*.gtkw ]; then \
+gtkwave waves/$*.gtkw; \
+else \
+gtkwave waves/$*.vcd; \
+fi
 
+# ================================
+# Cleanup
+# ================================
 
-# Run synthesis on Design
-.PHONY: syn_%
-syn_%:
-	@echo -e "Synthesizing design...\n"
-	@mkdir -p $(MAP)
-	$(YOSYS) -p "read_verilog -sv -noblackbox $(SRC)/*; synth_ice40 -top $*; clean; write_verilog $(MAP)/$*.v"
-	@echo -e "\nSynthesis complete!\n"
-
-
-# Compile and simulate synthesized design
-.PHONY: sim_%_syn
-sim_%_syn: syn_%
-	@echo -e "Compiling synthesized design...\n"
-	@mkdir -p $(BUILD) && rm -rf $(BUILD)/*
-	@iverilog -g2012 -o $(BUILD)/$*_tb -DFUNCTIONAL -DUNIT_DELAY=#1 $(TB)/$*_tb.sv $(MAP)/$*.v $(FPGA_TIMING_CELLS)
-	@echo -e "\nCompilation complete!\n"
-	@echo -e "Simulating synthesized design...\n\n"
-	@vvp -l vvp_sim.log $(BUILD)/$*_tb
-	@echo -e "\nSimulation complete!\n"
-	@echo -e "\nOpening waveforms...\n"
-	@if [ -f waves/$*.gtkw ]; then \
-		gtkwave waves/$*.gtkw; \
-	else \
-		gtkwave waves/$*.vcd; \
-	fi
-
-
-# Lint Design Only
-.PHONY: vlint_%
-vlint_%:
-	@verilator --lint-only -Wall -y $(SRC) $(SRC)/$*.sv
-	@echo -e "\nNo linting errors found!\n"
-
-
-# Compile and simulate synthesized design
-.PHONY: cells_%
-cells_%: $(ICE) $(SRC) $(PINMAP)
-	# lint with Verilator
-	verilator --lint-only --top-module top -Werror-latch -y $(SRC) $(SRC)/top.sv
-	# if build folder doesn't exist, create it
-	mkdir -p $(BUILD)
-	# synthesize using Yosys
-	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth -top $*; cd $*; show -format svg -viewer gimp"
-
-# *******************************************************************************
-# FPGA TARGETS
-# *******************************************************************************
-
-# Check code and synthesize design into a JSON netlist
-$(BUILD)/$(FPGA_TOP).json : $(ICE) $(SRC) $(PINMAP)
-	# lint with Verilator
-	verilator --lint-only --top-module top -Werror-latch -y $(SRC) $(SRC)/top.sv
-	# if build folder doesn't exist, create it
-	mkdir -p $(BUILD)
-	# synthesize using Yosys
-	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth_ice40 -top ice40hx8k -json $(BUILD)/$(FPGA_TOP).json"
-
-
-# Place and route design using nextpnr
-$(BUILD)/$(FPGA_TOP).asc : $(BUILD)/$(FPGA_TOP).json
-	# Place and route using nextpnr
-	$(NEXTPNR) --hx8k --package ct256 --pcf $(PINMAP) --asc $(BUILD)/$(FPGA_TOP).asc --json $(BUILD)/$(FPGA_TOP).json 2> >(sed -e 's/^.* 0 errors$$//' -e '/^Info:/d' -e '/^[ ]*$$/d' 1>&2)
-
-
-# Convert to bitstream using IcePack
-$(BUILD)/$(FPGA_TOP).bin : $(BUILD)/$(FPGA_TOP).asc
-	# Convert to bitstream using IcePack
-	icepack $(BUILD)/$(FPGA_TOP).asc $(BUILD)/$(FPGA_TOP).bin
-
-
-# Perform timing analysis on FPGA design
-time: $(BUILD)/$(FPGA_TOP).asc
-	# Re-synthesize
-	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth_ice40 -top ice40hx8k -json $(BUILD)/$(FPGA_TOP).json"
-	# Place and route using nextpnr
-	$(NEXTPNR) --hx8k --package ct256 --asc $(BUILD)/$(FPGA_TOP).asc --json $(BUILD)/$(FPGA_TOP).json 2> >(sed -e 's/^.* 0 errors$$//' -e '/^Info:/d' -e '/^[ ]*$$/d' 1>&2)
-	icetime -tmd hx8k $(BUILD)/$(FPGA_TOP).asc
-
-
-# Upload design to the FPGA's flash memory
-flash: clean $(BUILD)/$(FPGA_TOP).bin
-	# Program non-volatile flash memory with FPGA bitstream using iceprog
-	iceprog $(BUILD)/$(FPGA_TOP).bin
-
-
-# Upload design to the FPGA's non-volatile RAM
-cram: clean $(BUILD)/$(FPGA_TOP).bin
-	# Program volatile FPGA Configuration RAM (CRAM) with bitstream using iceprog
-	iceprog -S $(BUILD)/$(FPGA_TOP).bin
-
-#Show the synthesied diagram
-cells : $(ICE) $(SRC) $(PINMAP)
-	# lint with Verilator
-	verilator --lint-only --top-module top -Werror-latch -y $(SRC) $(SRC)/top.sv
-	# if build folder doesn't exist, create it
-	mkdir -p $(BUILD)
-	# synthesize using Yosys
-	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth -top top; cd top; show -format svg -viewer gimp"
-
-#Show the synthesied diagram
-fpga-cells : $(ICE) $(SRC) $(PINMAP)
-	# lint with Verilator
-	verilator --lint-only --top-module top -Werror-latch -y $(SRC) $(SRC)/top.sv
-	# if build folder doesn't exist, create it
-	mkdir -p $(BUILD)
-	# synthesize using Yosys
-	$(YOSYS) -p "read_verilog -sv -noblackbox $(ICE) $(UART) $(SRC)/*; synth_ice40 -top top; show -format svg -viewer gimp"
-
-# Clean temporary files
 clean:
-	rm -rf build/ mapped/ *.log waves/*.vcd
+rm -rf $(BUILD)
+
+.PHONY: all clean cram
