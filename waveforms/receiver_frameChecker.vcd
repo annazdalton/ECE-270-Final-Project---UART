@@ -1,0 +1,40 @@
+$date
+	Mon Dec  1 03:14:00 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module receiver_frameChecker_tb $end
+$var wire 1 ! frame_error $end
+$var reg 1 " frame_en $end
+$var reg 1 # stop_bit $end
+$scope module frameTest $end
+$var wire 1 " frame_en $end
+$var wire 1 # stop_bit $end
+$var reg 1 ! frame_error $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+0#
+0"
+0!
+$end
+#10000
+1#
+#20000
+1"
+#30000
+1!
+0#
+#40000
+0!
+0"
+#50000

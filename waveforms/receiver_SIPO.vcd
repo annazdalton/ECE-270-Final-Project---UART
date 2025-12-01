@@ -1,0 +1,131 @@
+$date
+	Mon Dec  1 03:06:38 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module receiver_SIPO_tb $end
+$var wire 8 ! sipo_o [7:0] $end
+$var reg 1 " clk $end
+$var reg 1 # data_i $end
+$var reg 1 $ nrst $end
+$var reg 1 % shift_en $end
+$scope module SIPOTest $end
+$var wire 1 " clk $end
+$var wire 1 # data_i $end
+$var wire 1 $ nrst $end
+$var wire 1 % shift_en $end
+$var reg 8 & nextSipo_o [7:0] $end
+$var reg 8 ' sipo_o [7:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+bx '
+bx &
+x%
+1$
+x#
+0"
+bx !
+$end
+#10000
+b0 &
+b0 !
+b0 '
+0$
+#20000
+1#
+0%
+1$
+1"
+#30000
+0"
+#40000
+1"
+0#
+#50000
+0"
+#60000
+b10000000 !
+b10000000 '
+b11000000 &
+1"
+1#
+1%
+#70000
+0"
+#80000
+b1000000 !
+b1000000 '
+b100000 &
+1"
+0#
+#90000
+0"
+#100000
+b10100000 !
+b10100000 '
+b11010000 &
+1"
+1#
+#110000
+0"
+#120000
+b1010000 !
+b1010000 '
+b101000 &
+1"
+0#
+#130000
+0"
+#140000
+b10100 &
+b101000 !
+b101000 '
+1"
+#150000
+0"
+#160000
+b10010100 !
+b10010100 '
+b11001010 &
+1"
+1#
+#170000
+0"
+#180000
+b1001010 !
+b1001010 '
+b100101 &
+1"
+0#
+#190000
+0"
+#200000
+b10100101 !
+b10100101 '
+b11010010 &
+1"
+1#
+#210000
+0"
+#220000
+b10100101 &
+1"
+0%
+#230000
+0"
+#240000
+1"
+#250000
+0"
+#260000
+1"

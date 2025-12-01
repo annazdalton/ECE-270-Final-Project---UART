@@ -1,0 +1,55 @@
+$date
+	Mon Dec  1 03:08:53 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module receiver_parityChecker_tb $end
+$var wire 1 ! parity_error $end
+$var reg 1 " parity_bit $end
+$var reg 1 # parity_en $end
+$var reg 8 $ sipo_i [7:0] $end
+$scope module parityTest $end
+$var wire 1 " parity_bit $end
+$var wire 1 # parity_en $end
+$var wire 8 % sipo_i [7:0] $end
+$var reg 1 ! parity_error $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b11111111 %
+b11111111 $
+0#
+0"
+0!
+$end
+#10000
+b0 $
+b0 %
+1#
+#20000
+1"
+b1 $
+b1 %
+#30000
+0"
+b10101010 $
+b10101010 %
+#40000
+1!
+b1 $
+b1 %
+#50000
+1!
+1"
+b10101010 $
+b10101010 %
+#60000
