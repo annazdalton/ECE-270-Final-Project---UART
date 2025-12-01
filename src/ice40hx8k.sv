@@ -1,23 +1,25 @@
 module ice40hx8k(
   // I/O ports
-  input  logic hwclk, reset, //hwclk = 10 MHz
+  input  logic hwclk, //reset, //hwclk = 10 MHz
   input  logic [20:0] pb,
   output logic [7:0] left, right,
          ss7, ss6, ss5, ss4, ss3, ss2, ss1, ss0,
   output logic red, green, blue,
 
   // UART ports
-  output logic [7:0] txdata,
-  input  logic [7:0] rxdata,
-  output logic txclk, rxclk,
-  input  logic txready, rxready
+  // output logic [7:0] txdata,
+  // input  logic [7:0] rxdata,
+  // output logic txclk, rxclk,
+  // input  logic txready, rxready
 );
 
 
 logic [7:0] PISOdata_i;
 logic [3:0] count_o;
 logic [1:0] mux_select;
-logic count_enable, count_clear, count_overflow, piso_o, tx_data_o, mux_stop, mux_start, parity_o, tx_valid, parity_en, shift_en, shift_load, baud_tick;
+logic count_enable, reset, count_clear, count_overflow, piso_o, tx_data_o, mux_stop, mux_start, parity_o, tx_valid, parity_en, shift_en, shift_load, baud_tick;
+
+assign reset = pb[17];
 
 // data going into transmitter is PB[7:0] of FPGA
 assign PISOdata_i = pb[7:0];
