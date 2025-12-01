@@ -28,25 +28,39 @@ transmitter_top topTest(
     .rxready()
 );
 
+//12MHz clk - period is 83.33 ns
 always begin
-    #10
+    #41.66
     clk = ~clk;
 end
 
 initial begin
     $dumpfile("transmitter_top.vcd");
     $dumpvars(0, transmitter_top_tb);
-    clk = 1;
+    clk = 0;
 
     //reset
     nrst = 1;
-    #10
+    pb = '0;
+    #500
     nrst = 0;
-    #10
+    #500
     nrst = 1;
-    #20
+    #500
 
-    #100
+    pb[7:0] = 8'b10100101;
+
+    // parity_en on pb[18], tx_valid on pb[19]
+    pb[18]    = 1'b0; // 0 = no parity, 1 = enable parity
+    pb[19]    = 1'b0;
+
+    //assert tx_valid for one clock
+    #500;
+    pb[19]    = 1'b1; // tx_valid pulse
+    #100;
+    pb[19]    = 1'b0;
+
+    #2_000_000; // 2 ms in ns
     $finish;
 end
 endmodule
