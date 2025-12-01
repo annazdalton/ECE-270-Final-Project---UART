@@ -14,7 +14,7 @@ module receiver_top(
 );
 
     logic [7:0] SIPOdata_o;
-    logic shift_en, parity_en, frame_en, data_ready;
+    logic shift_en, parity_en_input, parity_en, frame_en, data_ready;
     loigc parity_error, frame_error;
     logic baud_tick;
     logic data_i;
@@ -22,6 +22,9 @@ module receiver_top(
     //simulated serial data input from push button
     assign data_i = pb[0];
 
+    //simulated parity enable signal
+    assign parity_en_input = pb[18];
+    
     //data leaving receiver is left[7:0] of FPGA
     assign left[7:0] = SIPOdata_o;
     
@@ -42,6 +45,7 @@ module receiver_top(
         .nrst(reset),
         .baud_tick(baud_tick),
         .data_i(data_i),
+        .parity_en_i(parity_en_input),
         .shift_en(shift_en),
         .parity_en(parity_en),
         .frame_en(frame_en),
@@ -68,4 +72,5 @@ module receiver_top(
         .stop_bit(data_i),
         .frame_error(frame_error)
     );
+
 endmodule
