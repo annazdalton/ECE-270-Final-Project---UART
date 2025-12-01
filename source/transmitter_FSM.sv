@@ -16,7 +16,7 @@ module transmitter_FSM(
 
     state_t state, nextState;
 
-    always_ff @(posedge clk, negedge ~nrst) begin
+    always_ff @(posedge clk, negedge nrst) begin
         if(~nrst) begin
             state <= IDLE;
         end else begin
