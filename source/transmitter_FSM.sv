@@ -26,7 +26,7 @@ module transmitter_FSM(
 
     always_comb begin
         //defaults to prevent latch
-        nestState = state;
+        nextState = state;
 
         count_en = 1'b0;
         count_clear = 1'b0;
