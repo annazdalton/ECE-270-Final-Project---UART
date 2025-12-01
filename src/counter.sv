@@ -8,7 +8,7 @@ module counter(
 );
     logic [3:0] nextCount;
 
-    always_ff @(posedge clk, negedge ~nrst) begin
+    always_ff @(posedge clk, negedge nrst) begin
         if(~nrst) begin
             count <= '0;
         end else begin
