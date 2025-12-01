@@ -1,22 +1,22 @@
 module receiver_FSM(
     input logic clk, nrst,
-    input logic baud_tick, data_i, 
+    input logic baud_tick, data_i, parity_en_i,
     output logic shift_en, parity_en, frame_en,
     output logic data_ready
 );
 
     typedef enum logic [2:0]{
-        IDLE = 3'd0;
-        START = 3'd1;
-        DATA = 3'd2;
-        PARITY = 3'd3;
-        STOP = 3'd4;
+        IDLE = 3'd0,
+        START = 3'd1,
+        DATA = 3'd2,
+        PARITY = 3'd3,
+        STOP = 3'd4
     } state_t;
 
     state_t state, nextState;
     logic [3:0] bit_count, nextCount;
 
-    always_ff @(posedge clk, negedge nrst) begin
+    always_ff @(posedge clk, negedge ~nrst) begin
         if(~nrst) begin
             state <= IDLE;
             bit_count <= '0;
@@ -52,7 +52,7 @@ module receiver_FSM(
                 end
             end    
             DATA: begin
-                if (baud_tick == 1'b1 && bit_count == 4'd7 && parity_en == 1'b1) begin
+                if (baud_tick == 1'b1 && bit_count == 4'd7 && parity_en_i == 1'b1) begin
                     shift_en = 1'b1;
                     nextState = PARITY;
                     nextCount = '0;
@@ -60,7 +60,7 @@ module receiver_FSM(
                     shift_en = 1'b1;
                     nextState = DATA;
                     nextCount = bit_count + 4'd1;
-                end else if (baud_tick == 1'b1 && bit_count == 4'd7 && parity_en == 1'b0) begin
+                end else if (baud_tick == 1'b1 && bit_count == 4'd7 && parity_en_i == 1'b0) begin
                     shift_en = 1'b1;
                     nextState = STOP;
                     nextCount = '0;
@@ -90,4 +90,3 @@ module receiver_FSM(
     end
 
 endmodule
-

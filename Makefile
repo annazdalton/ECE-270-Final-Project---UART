@@ -9,6 +9,7 @@ TB_DIR := testbench
 BUILD := build
 PINMAP := constraints/pinmap.pcf
 
+TOP_SRC := $(SRC_DIR)/ice40hx8k.sv
 # ================================
 # FPGA Tools
 # ================================
@@ -22,10 +23,12 @@ PROG := iceprog
 # Source Files
 # ================================
 
-SRC := $(wildcard $(SRC_DIR)/*.sv)
-UART := $(wildcard $(UART_DIR)/*.v)
+SRC  := $(wildcard $(SRC_DIR)/*.sv) $(wildcard $(SRC_DIR)/*.v)
+UART := $(wildcard $(UART_DIR)/*.sv) $(wildcard $(UART_DIR)/*.v)
 FILES := $(SRC) $(UART)
 
+$(info TOP   = $(TOP))
+$(info FILES = $(FILES))
 # ================================
 # Build Products
 # ================================
@@ -42,7 +45,6 @@ $(JSON): $(FILES) $(PINMAP) Makefile
 	mkdir -p $(BUILD)
 	$(YOSYS) -p "\
 	read_verilog -sv -noblackbox $(FILES); \
-	read_verilog -lib $(shell yosys-config --datdir)/ice40/cells_sim.v; \
 	hierarchy -check -top $(TOP); \
 	proc; opt; fsm; opt; \
 	techmap; opt; \

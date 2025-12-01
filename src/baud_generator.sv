@@ -1,6 +1,6 @@
 module baud_generator(
-    input clk, nrst,
-    output baud_tick
+    input logic clk, nrst,
+    output logic baud_tick
 );
     logic [15:0] counter, divisor, counter_n;
     logic baud_tick_n;
@@ -27,7 +27,7 @@ module baud_generator(
             baud_tick_n = 1'b1;
         end else begin
             counter_n = counter + 16'd1;
-            baud_tick = 1'b0;
+            baud_tick_n = 1'b0;
         end
     end
 

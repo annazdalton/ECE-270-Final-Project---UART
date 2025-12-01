@@ -1,4 +1,4 @@
-module transmitter_top (
+module ice40hx8k(
   // I/O ports
   input  logic hwclk, reset, //hwclk = 10 MHz
   input  logic [20:0] pb,
