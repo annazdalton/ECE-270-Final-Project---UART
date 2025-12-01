@@ -13,7 +13,7 @@
 ![UART Transmitter and Receiver RTL Diagram](/img/topLevelRTL.png)
 
 ### Transmitter RTL Diagram
-![UART Transmitter RTL Diagram](/img/transmitterRTL.png)
+![UART Transmitter RTL Diagram](/img/Transmitter RTL.drawio (1).png)
 
 ### Receiver RTL Diagram
 ![UART Transmitter RTL Diagram](/img/receiverRTL.png)
