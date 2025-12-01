@@ -1,0 +1,2 @@
+VCD info: dumpfile transmitter_top.vcd opened for output.
+testbench/transmitter_top_tb.sv:64: $finish called at 2002100000 (1ps)
