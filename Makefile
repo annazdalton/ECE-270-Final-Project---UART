@@ -1,6 +1,8 @@
 # ================================
 # Project Configuration
 # ================================
+export PATH := /home/shay/a/ece270/bin:$(PATH)
+export LD_LIBRARY_PATH := /home/shay/a/ece270/lib:$(LD_LIBRARY_PATH)
 
 TOP := ice40hx8k
 SRC_DIR := src
@@ -8,6 +10,7 @@ UART_DIR := uart
 TB_DIR := testbench
 BUILD := build
 PINMAP := constraints/pinmap.pcf
+UART	:= uart/uart.v uart/uart_tx.v uart/uart_rx.v
 
 TOP_SRC := $(SRC_DIR)/ice40hx8k.sv
 # ================================
@@ -18,6 +21,7 @@ YOSYS := yosys
 NEXTPNR := nextpnr-ice40
 ICEPACK := icepack
 PROG := iceprog
+SHELL=bash
 
 # ================================
 # Source Files
