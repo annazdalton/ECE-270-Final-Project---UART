@@ -23,6 +23,9 @@ logic count_enable, count_clear, count_overflow, piso_o, tx_data_o, mux_stop, mu
 assign PISOdata_i = pb[7:0];
 // data coming out is shown on RIGHT[0]
 assign right[0] = tx_data_o;
+assign right[1] = parity_en;
+assign right[2] = tx_valid;
+assign right[3] = baud_tick;
 //user inputs
 assign tx_valid = pb[19];
 assign parity_en = pb[18];
