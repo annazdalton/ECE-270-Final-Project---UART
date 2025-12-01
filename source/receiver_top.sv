@@ -15,7 +15,7 @@ module receiver_top(
 
     logic [7:0] SIPOdata_o;
     logic shift_en, parity_en_input, parity_en, frame_en, data_ready;
-    loigc parity_error, frame_error;
+    logic parity_error, frame_error;
     logic baud_tick;
     logic data_i;
 
@@ -35,7 +35,7 @@ module receiver_top(
     assign right [7:3] = 5'b0;
 
     baud_generator baudgen(
-        .clk(hw),
+        .clk(hwclk),
         .nrst(reset),
         .baud_tick(baud_tick)
     );
@@ -74,3 +74,4 @@ module receiver_top(
     );
 
 endmodule
+
