@@ -17,7 +17,7 @@ module counter(
     end
 
     always_comb begin
-        overflow_flag = 0;
+        overflow_flag = '0;
         if(clear) begin
             nextCount = '0;
         end else if(enable) begin
