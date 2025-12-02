@@ -10,7 +10,7 @@
 | Kameswari Mantha | Receiver RTL Diagram, Receiver State Diagram, frameChecker.sv, parityChecker.sv, receiverFSM.sv, receiver_SIPO.sv, testbenches for mentioned modules |
 
 ### Top Level RTL Diagram
-![UART Transmitter and Receiver RTL Diagram](/img/topLevelRTL.png)
+![UART Transmitter and Receiver RTL Diagram](/img/UART_Top_Level_RTL.png)
 
 ### Transmitter RTL Diagram
 ![UART Transmitter RTL Diagram](/img/transmitter_RTL.png)
